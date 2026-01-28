@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join | Muscle World</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 40px 0;
+    }
+    
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+    }
+    
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 1;
+      animation: gridMove 20s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #ff00ff;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float linear infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+    }
+    
+    .signup-container {
+      position: relative;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      padding: 50px 40px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 550px;
+      text-align: center;
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(255, 0, 255, 0.2);
+      animation: fadeInUp 0.8s ease-out;
+      margin: 20px;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .logo-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 30px;
+    }
+    
+    .logo-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 140px;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      border-top-color: #ff00ff;
+      border-right-color: #00ffff;
+      animation: rotate 4s linear infinite;
+    }
+    
+    @keyframes rotate {
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    .logo {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #ff00ff;
+      box-shadow: 
+        0 0 30px rgba(255, 0, 255, 0.5),
+        0 0 60px rgba(0, 255, 255, 0.3);
+      position: relative;
+      z-index: 5;
+      transition: all 0.4s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 50px rgba(255, 0, 255, 0.8),
+        0 0 80px rgba(0, 255, 255, 0.5);
+    }
+    
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .form-group {
+      text-align: left;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.85em;
+      color: #ff00ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-size: 1em;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    input:focus, select:focus {
+      background: rgba(0, 0, 0, 0.6);
+      border-color: #ff00ff;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+    }
+    
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff00ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 20px;
+      padding-right: 45px;
+    }
+    
+    select option {
+      background: #1a0a2e;
+      color: white;
+    }
+    
+    .membership-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .plan-badge {
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.75em;
+      font-weight: 600;
+      text-align: center;
+      border: 1px solid;
+    }
+    
+    .plan-badge.basic {
+      background: rgba(100, 100, 255, 0.1);
+      border-color: rgba(100, 100, 255, 0.3);
+      color: #6464ff;
+    }
+    
+    .plan-badge.premium {
+      background: rgba(255, 0, 255, 0.1);
+      border-color: rgba(255, 0, 255, 0.3);
+      color: #ff00ff;
+    }
+    
+    .plan-badge.elite {
+      background: rgba(0, 255, 255, 0.1);
+      border-color: rgba(0, 255, 255, 0.3);
+      color: #00ffff;
+    }
+    
+    .btn-submit {
+      background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+      margin-top: 10px;
+    }
+    
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(255, 0, 255, 0.6);
+      background: linear-gradient(135deg, #ff00ff 0%, #dd00dd 100%);
+    }
+    
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+    
+    .login-link {
+      margin-top: 25px;
+      font-size: 0.95em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .login-link a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    
+    .login-link a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    }
+    
+    .back-home {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+    }
+    
+    .back-home a {
+      color: #ff00ff;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9em;
+      padding: 10px 20px;
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .back-home a:hover {
+      background: rgba(255, 0, 255, 0.1);
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .membership-info {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .signup-container {
+        padding: 40px 25px;
+        margin: 20px;
+      }
+      
+      h2 {
+        font-size: 1.6em;
+        letter-spacing: 2px;
+      }
+      
+      .logo-wrapper {
+        width: 110px;
+        height: 110px;
+      }
+      
+      .logo {
+        width: 110px;
+        height: 110px;
+      }
+      
+      .logo-ring {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .back-home {
+        top: 20px;
+        left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
+  <div class="grid-overlay"></div>
+  <div id="particles"></div>
+  
+  <div class="back-home">
+    <a href="index1.html">← HOME</a>
+  </div>
+  
+  <div class="signup-container">
+    <div class="logo-wrapper">
+      <div class="logo-ring"></div>
+      <img src="logo2.jpeg" alt="Muscle World Logo" class="logo">
+    </div>
+    <h2>Start Evolution</h2>
+    <p class="subtitle">Begin Your Transformation Journey</p>
+    
+    <form action="dashboard.html" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" id="firstname" name="firstname" placeholder="John" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" id="lastname" name="lastname" placeholder="Doe" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="john.doe@example.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="membership">Select Membership Tier</label>
+        <select id="membership" name="membership" required>
+          <option value="">-- Choose Your Level --</option>
+          <option value="basic">BASIC - $29/month</option>
+          <option value="premium">PREMIUM - $49/month</option>
+          <option value="elite">ELITE - $79/month</option>
+        </select>
+        
+        <div class="membership-info">
+          <div class="plan-badge basic">Basic Access</div>
+          <div class="plan-badge premium">Full Features</div>
+          <div class="plan-badge elite">VIP Status</div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Security Key</label>
+          <input type="password" id="password" name="password" placeholder="Min. 8 characters" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password">Confirm Key</label>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+    
+    <div class="login-link">
+      Already a member? <a href="login.html">Access Portal</a>
+    </div>
+  </div>
+
+  <script>
+    // Create animated particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 40;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        
+        if (Math.random() > 0.5) {
+          particle.style.background = '#00ffff';
+        }
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    createParticles();
+
+    // Password match validation
+    const form = document.querySelector('form');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    form.addEventListener('submit', (e) => {
+      if (password.value !== confirmPassword.value) {
+        e.preventDefault();
+        confirmPassword.style.borderColor = '#ff0000';
+        alert('Security keys do not match!');
+      }
+    });
+
+    confirmPassword.addEventListener('input', () => {
+      if (confirmPassword.value === password.value) {
+        confirmPassword.style.borderColor = 'rgba(255, 0, 255, 0.3)';
+      }
+    });
+  </script>
+</body>
+</html>

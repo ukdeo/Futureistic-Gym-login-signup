@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muscle World | Next-Gen Fitness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+        }
+        
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+        
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ffff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+        
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Header/Logo Section */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        
+        .logo-wrapper {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .logo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: #00ffff;
+            border-right-color: #ff00ff;
+            animation: rotate 4s linear infinite;
+        }
+        
+        .logo-ring:nth-child(2) {
+            width: 240px;
+            height: 240px;
+            animation: rotate 6s linear infinite reverse;
+            border-top-color: #ff00ff;
+            border-right-color: #00ffff;
+        }
+        
+        @keyframes rotate {
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .logo img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            position: relative;
+            z-index: 5;
+            border: 3px solid #00ffff;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.5),
+                0 0 60px rgba(255, 0, 255, 0.3),
+                inset 0 0 20px rgba(0, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 50px rgba(0, 255, 255, 0.8),
+                0 0 80px rgba(255, 0, 255, 0.5);
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #00ffff 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .tagline {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.8;
+            color: #a0a0a0;
+            font-weight: 300;
+        }
+        
+        /* CTA Buttons */
+        .cta-section {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            position: relative;
+            padding: 18px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid;
+            background: transparent;
+            cursor: pointer;
+            min-width: 220px;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            color: #00ffff;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .btn-secondary {
+            color: #ff00ff;
+            border-color: #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+        
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        /* Membership Plans Section */
+        .plans-section {
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #808080;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .plan-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .plan-card:hover::before {
+            opacity: 1;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .plan-card.premium {
+            border-color: rgba(255, 0, 255, 0.3);
+        }
+        
+        .plan-card.premium:hover {
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .plan-card.premium::before {
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.1) 0%, transparent 70%);
+        }
+        
+        .plan-card.elite {
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        .plan-card.elite:hover {
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .plan-card.elite::before {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff00ff 0%, #ff0080 100%);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s ease infinite;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .plan-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .plan-card.basic .plan-name { color: #00ffff; }
+        .plan-card.premium .plan-name { color: #ff00ff; }
+        .plan-card.elite .plan-name { color: #ffd700; }
+        
+        .plan-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        
+        .plan-price .currency {
+            font-size: 0.5em;
+            vertical-align: super;
+        }
+        
+        .plan-period {
+            color: #808080;
+            font-size: 1em;
+            margin-bottom: 30px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #b0b0b0;
+            font-size: 0.95em;
+        }
+        
+        .plan-features li:before {
+            content: '✓';
+            color: #00ffff;
+            font-weight: 900;
+            margin-right: 10px;
+        }
+        
+        .plan-card.premium .plan-features li:before { color: #ff00ff; }
+        .plan-card.elite .plan-features li:before { color: #ffd700; }
+        
+        .subscription-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            font-weight: 900;
+            display: block;
+        }
+        
+        .plan-card.basic .stat-number { color: #00ffff; }
+        .plan-card.premium .stat-number { color: #ff00ff; }
+        .plan-card.elite .stat-number { color: #ffd700; }
+        
+        .stat-label {
+            font-size: 0.7em;
+            color: #606060;
+            text-transform: uppercase;
+        }
+        
+        .plan-btn {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid;
+            border-radius: 10px;
+            background: transparent;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+        
+        .plan-card.basic .plan-btn {
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        .plan-card.basic .plan-btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+        
+        .plan-card.premium .plan-btn {
+            border-color: #ff00ff;
+            color: #ff00ff;
+            background: rgba(255, 0, 255, 0.1);
+        }
+        
+        .plan-card.premium .plan-btn:hover {
+            background: rgba(255, 0, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+        }
+        
+        .plan-card.elite .plan-btn {
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+        
+        .plan-card.elite .plan-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 60px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+            animation: pulse 2s ease infinite;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .feature-card:nth-child(even):hover {
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+        }
+        
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .feature-card:nth-child(even) h3 {
+            color: #ff00ff;
+        }
+        
+        .feature-card p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+        
+        /* Stats Section */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item-main {
+            text-align: center;
+        }
+        
+        .stat-number-main {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label-main {
+            font-size: 1em;
+            color: #808080;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ffff;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-links a:nth-child(even) {
+            border-color: #ff00ff;
+            color: #ff00ff;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+        
+        .social-links a:nth-child(even):hover {
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+        }
+        
+        .copyright {
+            font-size: 0.9em;
+            color: #606060;
+            letter-spacing: 1px;
+        }
+        
+        /* Responsive */
+        @media(max-width: 768px) {
+            h1 { font-size: 2.5em; letter-spacing: 4px; }
+            .tagline { font-size: 1.1em; }
+            .logo-wrapper { width: 150px; height: 150px; }
+            .logo img { width: 150px; height: 150px; }
+            .logo-ring { width: 170px; height: 170px; }
+            .logo-ring:nth-child(2) { width: 190px; height: 190px; }
+            .btn { padding: 15px 40px; font-size: 1em; min-width: 180px; }
+            .stats { gap: 40px; }
+            .stat-number-main { font-size: 2.5em; }
+            .section-title { font-size: 2em; }
+            .plans-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media(max-width: 480px) {
+            h1 { font-size: 2em; letter-spacing: 2px; }
+            .tagline { font-size: 1em; padding: 0 20px; }
+            .cta-section { gap: 15px; }
+            .btn { width: 100%; }
+            .features { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 30px; }
+            .section-title { font-size: 1.7em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+    <div id="particles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-wrapper">
+                    <div class="logo-ring"></div>
+                    <div class="logo-ring"></div>
+                    <div class="logo">
+                        <img src="logo2.jpeg" alt="Muscle World Logo">
+                    </div>
+                </div>
+            </div>
+            <h1>Muscle World</h1>
+            <p class="tagline">Enter the future of fitness. Where cutting-edge technology meets human potential. Transform your body, elevate your mind, transcend your limits.</p>
+        </div>
+        
+        <div class="cta-section">
+            <a href="login.html" class="btn btn-primary">Access Portal</a>
+            <a href="signup.html" class="btn btn-secondary">Start Evolution</a>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item-main">
+                <span class="stat-number-main">10K+</span>
+                <span class="stat-label-main">Members</span>
+            </div>
+            <div class="stat-item-main">
+                <span class="stat-number-main">50+</span>
+                <span class="stat-label-main">Expert Trainers</span>
+            </div>
+            <div class="stat-item-main">
+                <span class="stat-number-main">24/7</span>
+                <span class="stat-label-main">Access</span>
+            </div>
+        </div>
+        
+        <!-- Membership Plans Section -->
+        <div class="plans-section">
+            <h2 class="section-title">Choose Your Path</h2>
+            <p class="section-subtitle">AI-Recommended based on 10,000+ member choices</p>
+            
+            <div class="plans-grid">
+                <!-- Basic Plan -->
+                <div class="plan-card basic">
+                    <h3 class="plan-name">Basic</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>29
+                    </div>
+                    <p class="plan-period">/month</p>
+                    
+                    <ul class="plan-features">
+                        <li>Gym Access (6am-10pm)</li>
+                        <li>Basic Equipment</li>
+                        <li>Locker Room</li>
+                        <li>Mobile App Access</li>
+                        <li>Group Classes (Limited)</li>
+                    </ul>
+                    
+                    <div class="subscription-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="basic-subs">0</span>
+                            <span class="stat-label">Members</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="basic-percent">0%</span>
+                            <span class="stat-label">Share</span>
+                        </div>
+                    </div>
+                    
+                    <button class="plan-btn" onclick="window.location.href='signup.html'">Select Basic</button>
+                </div>
+                
+                <!-- Premium Plan -->
+                <div class="plan-card premium" id="premium-card">
+                    <h3 class="plan-name">Premium</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>49
+                    </div>
+                    <p class="plan-period">/month</p>
+                    
+                    <ul class="plan-features">
+                        <li>24/7 Gym Access</li>
+                        <li>All Equipment + VR</li>
+                        <li>Personal Locker</li>
+                        <li>AI Coaching (Basic)</li>
+                        <li>Unlimited Group Classes</li>
+                        <li>Nutrition Consultation</li>
+                    </ul>
+                    
+                    <div class="subscription-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="premium-subs">0</span>
+                            <span class="stat-label">Members</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="premium-percent">0%</span>
+                            <span class="stat-label">Share</span>
+                        </div>
+                    </div>
+                    
+                    <button class="plan-btn" onclick="window.location.href='signup.html'">Select Premium</button>
+                </div>
+                
+                <!-- Elite Plan -->
+                <div class="plan-card elite">
+                    <h3 class="plan-name">Elite</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>79
+                    </div>
+                    <p class="plan-period">/month</p>
+                    
+                    <ul class="plan-features">
+                        <li>24/7 VIP Access</li>
+                        <li>All Equipment + Priority</li>
+                        <li>Private Locker Room</li>
+                        <li>AI Coaching (Advanced)</li>
+                        <li>Personal Trainer (2x/week)</li>
+                        <li>DNA Analysis & Plans</li>
+                        <li>Cryo Recovery Access</li>
+                        <li>Guest Passes (5/month)</li>
+                    </ul>
+                    
+                    <div class="subscription-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="elite-subs">0

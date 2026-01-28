@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainer Dashboard - Gym Management</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #16222a, #3a6073);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .trainer-container {
+      background: #1e2b38;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      text-align: center;
+      color: #00d9ff;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+
+    .trainer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .trainer-actions a {
+      text-decoration: none;
+      background-color: #00adb5;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .trainer-actions a:hover {
+      background-color: #007e87;
+      transform: translateY(-3px);
+    }
+
+    .summary {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="trainer-container" id="trainerDashboard" style="display: none;">
+    <h1>Trainer Dashboard</h1>
+
+    <div class="trainer-actions">
+      <a href="/trainer/members">View Assigned Members</a>
+      <a href="/trainer/schedule">Manage Schedule</a>
+      <a href="/trainer/attendance">Log Attendance</a>
+      <a href="/trainer/workouts">Create Workout Plans</a>
+      <a href="/trainer/messages">Messages</a>
+    </div>
+
+    <div class="summary">
+      Welcome, Trainer! Use the options above to manage your daily tasks and help members achieve their fitness goals.
+    </div>
+  </div>
+
+  <button onclick="showTrainerDashboard()" style="position: absolute; top: 30px; left: 30px; padding: 10px 20px; background-color: #00adb5; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+    Show Trainer Dashboard
+  </button>
+
+  <script>
+    function showTrainerDashboard() {
+      document.getElementById('trainerDashboard').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
